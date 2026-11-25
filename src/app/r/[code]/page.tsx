@@ -15,7 +15,14 @@ const serverClock = () => Date.now();
 
 export async function generateMetadata({ params }: PageProps<"/r/[code]">): Promise<Metadata> {
   const code = normalizeCode((await params).code);
-  return { title: `Room ${code} · Colors & Hues` };
+  const title = `Join room ${code} · Colors & Hues`;
+  const description = "You're invited to a game of Colors & Hues. Tap the link, pick a name, play.";
+  return {
+    title,
+    description,
+    openGraph: { title, description, url: `/r/${code}` },
+    twitter: { card: "summary_large_image", title, description },
+  };
 }
 
 function Shell({ children }: { children: React.ReactNode }) {

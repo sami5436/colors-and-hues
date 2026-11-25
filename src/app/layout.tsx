@@ -11,9 +11,25 @@ const display = Instrument_Serif({
   style: ["normal", "italic"],
 });
 
+const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : "http://localhost:3000";
+
+const description = "A party game about the colors between words. Make a room, share the code, play from your phone.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Colors & Hues",
-  description: "A party game about the colors between words. Make a room, share the code, play.",
+  description,
+  applicationName: "Colors & Hues",
+  openGraph: {
+    type: "website",
+    siteName: "Colors & Hues",
+    title: "Colors & Hues",
+    description,
+    url: "/",
+  },
+  twitter: { card: "summary_large_image", title: "Colors & Hues", description },
 };
 
 export const viewport: Viewport = {
