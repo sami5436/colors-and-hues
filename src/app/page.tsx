@@ -1,69 +1,103 @@
-import Image from "next/image";
+import { Board } from "@/components/board";
+import { CreateRoomForm, JoinRoomForm } from "@/components/entry-forms";
+import { Wordmark } from "@/components/ui";
+
+const demoMarkers = [
+  { cell: 4 * 28 + 6, label: "M" },
+  { cell: 5 * 28 + 8, label: "J" },
+  { cell: 3 * 28 + 7, label: "R", mine: true },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 sm:px-6">
+      <header className="flex items-center justify-between py-5">
+        <Wordmark />
+        <a href="#how" className="text-sm text-ink-2 underline-offset-4 hover:text-ink hover:underline">
+          How to play
+        </a>
+      </header>
+
+      <main className="flex-1">
+        <section className="grid items-end gap-8 border-b border-rule pb-10 pt-6 sm:pt-12 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
+          <div>
+            <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted">A party game for 2 to 12</p>
+            <h1 className="mt-4 font-display text-[52px] leading-[0.95] tracking-tight sm:text-7xl">
+              Find the color
+              <br />
+              <span className="italic">behind the word.</span>
+            </h1>
+            <p className="mt-5 max-w-md text-[15px] leading-relaxed text-ink-2">
+              Describe a shade with a single word and watch your friends argue over what &ldquo;avocado&rdquo; means. Or
+              flash a color, then try to rebuild it from memory. Everyone plays from their own phone.
+            </p>
+          </div>
+          <div aria-hidden className="pointer-events-none">
+            <Board compact markers={demoMarkers} target={4 * 28 + 7} />
+            <div className="mt-3 flex items-baseline justify-between text-xs text-muted">
+              <span>
+                Clue: <span className="font-display text-base italic text-ink">&ldquo;moss&rdquo;</span>
+              </span>
+              <span>3 guesses placed</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="grid gap-4 py-10 md:grid-cols-2 md:gap-6">
+          <CreateRoomForm />
+          <JoinRoomForm />
+        </section>
+
+        <section id="how" className="grid gap-8 border-t border-rule py-12 md:grid-cols-2 md:gap-12">
+          <div>
+            <h2 className="font-display text-4xl leading-none">Clue</h2>
+            <ol className="mt-5 space-y-3 text-[15px] leading-relaxed text-ink-2">
+              <li>
+                <span className="mr-2 font-mono text-xs text-muted">01</span>Each round one player is the clue giver and
+                secretly sees one square on the board.
+              </li>
+              <li>
+                <span className="mr-2 font-mono text-xs text-muted">02</span>They give a one word clue. Everyone else
+                drops a marker where they think it is.
+              </li>
+              <li>
+                <span className="mr-2 font-mono text-xs text-muted">03</span>A second clue of up to two words follows,
+                and everyone places a second marker.
+              </li>
+              <li>
+                <span className="mr-2 font-mono text-xs text-muted">04</span>Your closer marker scores up to 5. The
+                giver earns the average of the table, so clear clues pay.
+              </li>
+            </ol>
+          </div>
+          <div>
+            <h2 className="font-display text-4xl leading-none">Recall</h2>
+            <ol className="mt-5 space-y-3 text-[15px] leading-relaxed text-ink-2">
+              <li>
+                <span className="mr-2 font-mono text-xs text-muted">01</span>A color fills every screen for five
+                seconds.
+              </li>
+              <li>
+                <span className="mr-2 font-mono text-xs text-muted">02</span>It disappears. You get 35 seconds to mix it
+                back with hue, saturation and lightness.
+              </li>
+              <li>
+                <span className="mr-2 font-mono text-xs text-muted">03</span>Scores go up to 10, judged by perceptual
+                distance rather than raw numbers.
+              </li>
+              <li>
+                <span className="mr-2 font-mono text-xs text-muted">04</span>Highest total after the last round takes
+                it.
+              </li>
+            </ol>
+          </div>
+        </section>
       </main>
+
+      <footer className="flex items-center justify-between border-t border-rule py-5 text-xs text-muted">
+        <span>Colors &amp; Hues</span>
+        <span>No accounts, no sign up.</span>
+      </footer>
     </div>
   );
 }
